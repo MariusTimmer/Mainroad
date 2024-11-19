@@ -6,10 +6,15 @@
 		<ul class="widget__list">
 			{{- range $translations }}
 			<li class="widget__item">
-				<a class="widget-languages__link widget__link" href="{{ .RelPermalink }}">
-					<span class="widget-languages__link-btn widget__link-btn btn">{{ .Language | upper }}</span>
+				<a class="widget-languages__link widget__link" rel="alternate" hreflang="{{ .Language | lower }}" href="{{ .RelPermalink }}">
 					{{- with .Language.LanguageName }}
-					<span class="widget-languages__link-text widget__link-text">{{ . | title | humanize }}</span>
+					<span class="widget-languages__link-btn widget__link-btn btn">
+						{{- if eq ( . | lower ) "english" }}
+							🇬🇧
+						{{- else if eq ( . | lower ) "deutsch" }}
+							🇩🇪
+						{{- end }} {{ . | title | humanize }}
+					</span>
 					{{- end }}
 				</a>
 			</li>
