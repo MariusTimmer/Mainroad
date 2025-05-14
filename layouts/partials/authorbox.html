@@ -1,24 +1,61 @@
-{{- if .Param "authorbox" }}
+{{- if and (.Param "authorbox") (.Params.author) }}
 <div class="authorbox clearfix">
-	{{- if and (not .Site.Author.avatar) (not .Site.Author.name) (not .Site.Author.bio) }}
-	<p class="authorbox__warning">
-		<strong>WARNING:</strong> Authorbox is activated, but [Author] parameters are not specified.
-	</p>
+	<h3>
+		{{- $authors := .Params.author }}
+		{{- if not (reflect.IsSlice $authors) }}
+		Autor
+		{{- else if gt (len $authors) 1 }}
+		Autoren
+		{{- else }}
+		Autor
+		{{- end }}
+	</h3>
+
+	{{- if not (reflect.IsSlice $authors) }}
+	{{- $authors = slice $authors }}
 	{{- end }}
-	{{- with .Site.Author.avatar }}
-	<figure class="authorbox__avatar">
-		<img alt="{{ $.Site.Author.name }} avatar" src="{{ $.Site.Author.avatar | relURL }}" class="avatar" height="90" width="90">
-	</figure>
+
+	{{- range $authorName := $authors }}
+	{{- $authorKey := $authorName | urlize }}
+	{{- $author := (index $.Site.Taxonomies.authors $authorKey) }}
+
+	{{- if not $author }}
+	{{- $author = $.Site.GetPage (printf "authors/%s.md" $authorName) }}
 	{{- end }}
-	{{- with .Site.Author.name }}
-	<div class="authorbox__header">
-		<span class="authorbox__name">{{ T "authorbox_name" (dict "Name" .) }}</span>
+
+	{{- if $author }}
+	<div class="authorbox__entry">
+		{{- with $author.Params.avatar }}
+		<figure class="authorbox__avatar">
+			<img
+				alt="{{ $author.Params.name }}"
+				src="{{ . | relURL }}"
+				class="avatar"
+				height="90"
+				width="90" />
+		</figure>
+		{{- end }}
+
+		{{- with $author.Params.name }}
+		<div class="authorbox__header">
+			<a href="/authors/{{ . | urlize }}/">
+				<span class="authorbox__name">{{ . }}</span>
+			</a>
+			<meta property="article:author" content="{{ . }}" />
+		</div>
+		{{- end }}
+
+		{{- with $author.Params.bio }}
+		<div class="authorbox__description">
+			<p>{{ . | markdownify }}</p>
+		</div>
+		{{- end }}
 	</div>
+	{{- else }}
+	<!-- No author found -->
 	{{- end }}
-	{{- with .Site.Author.bio }}
-	<div class="authorbox__description">
-		{{ . | markdownify }}
-	</div>
 	{{- end }}
 </div>
+{{- else }}
+<!-- no author listed -->
 {{- end }}
