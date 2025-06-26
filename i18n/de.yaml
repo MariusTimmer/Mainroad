@@ -12,6 +12,9 @@
 - id: meta_lastmod
   translation: "Zuletzt geändert"
 
+- id: meta_published
+  translation: "Veröffentlicht"
+
 - id: meta_translations
   translation: "Übersetzungen"
 

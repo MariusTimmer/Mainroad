@@ -13,6 +13,7 @@
 		<div class="list__meta meta">{{ . }}</div>
 		{{- end }}
 	</header>
+	{{- if .Params.Date }}<div class="list__meta meta">{{ T "meta_published" }}: {{ .Params.Date.Format "02.01.2006" }}</div>{{- end }}
 	<div class="content list__excerpt post__content clearfix">
 		{{ .Summary }}
 	</div>
