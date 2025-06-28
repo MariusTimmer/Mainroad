@@ -9,7 +9,6 @@
 			{{ with partial "post_meta.html" . -}}
 			<div class="post__meta meta">{{ . }}</div>
 			{{- end }}
-			{{- if .Params.Date }}<div class="list__meta meta">{{ T "meta_published" }}: <time datetime="{{ .Params.Date.Format "2006-01-02" }}">{{ .Params.Date.Format "02.01.2006" }}</time></div>{{- end }}
 		</header>
 		{{ partial "post_thumbnail.html" (dict "class" "post" "page" .) }}
 		{{- partial "post_toc.html" . -}}
