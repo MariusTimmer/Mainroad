@@ -16,6 +16,15 @@
 		<div class="content post__content clearfix">
 			{{ .Content }}
 		</div>
+		{{- if .Params.information }}
+			{{- range .Params.information }}
+				{{- if eq . "blogwochen2025" }}
+					<div class="content post__footer clearfix" style="background-color: #f5f5f5; padding: 1em; border-left: 0.25em solid red;">
+						Diesen Beitrag schrieb ich im Rahmen der <a href="/tags/blogwochen2025/" rel="tag">BlogWochen2025</a>. Mehr zu dem Projekt ist im <a href="https://nureinblog.at/54063-im-mai-beginnen-die-blogwochen/">Blog von Robert</a> zu finden.
+					</div>
+				{{- end }}
+			{{- end }}
+		{{- end }}
 		{{- if .Params.tags }}
 		<footer class="post__footer">
 			{{ partial "post_tags.html" . }}
